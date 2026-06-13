@@ -19,6 +19,9 @@ const ctx = await esbuild.build({
   sourcemap: isWatch ? 'inline' : false,
   external: [],
   logLevel: 'info',
+  banner: {
+    js: '#!/usr/bin/env node',
+  },
 });
 
 if (isWatch) {

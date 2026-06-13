@@ -7,7 +7,7 @@ import { CLI_VERSION } from './version';
 
 process.on('SIGINT', () => {
   process.stderr.write('\nInterrupted. Exiting.\n');
-  process.exit(130);
+  process.exitCode = 130;
 });
 
 process.stdout.on('error', () => {});
@@ -25,7 +25,8 @@ async function main() {
 
   if (argv.includes('--version') || argv.includes('-v')) {
     console.log(`ds ${CLI_VERSION}`);
-    process.exit(0);
+    process.exitCode = 0;
+    return;
   }
 
   const commandPath = scanCommandPath(argv, GLOBAL_OPTIONS);
@@ -40,7 +41,8 @@ async function main() {
 
   if (argv.includes('--help') || argv.includes('-h')) {
     registry.printHelp(commandPath, process.stderr);
-    process.exit(0);
+    process.exitCode = 0;
+    return;
   }
 
   if (commandPath.length === 0) {
@@ -55,7 +57,8 @@ async function main() {
       process.stderr.write('  Not logged in.\n');
       process.stderr.write('  ds auth login              Login with your ds API key\n\n');
     }
-    process.exit(0);
+    process.exitCode = 0;
+    return;
   }
 
   const { command, extra } = registry.resolve(commandPath);
@@ -73,7 +76,8 @@ async function main() {
     const key = process.env.ds_API_KEY;
     if (!key) {
       process.stderr.write('Error: No API key found. Run "ds auth login" or set ds_API_KEY env var.\n');
-      process.exit(1);
+      process.exitCode = 1;
+      return;
     }
     config.apiKey = key;
   }
