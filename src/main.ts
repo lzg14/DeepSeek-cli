@@ -14,6 +14,7 @@ process.stdout.on('error', () => {});
 process.stderr.on('error', () => {});
 
 const NO_AUTH_SETUP = [
+  ['help'],
   ['auth', 'logout'],
   ['config', 'show'],
   ['config', 'set'],
@@ -73,9 +74,9 @@ async function main() {
     (cmd) => cmd.every((c, i) => commandPath[i] === c),
   );
   if (needsAuthSetup && !config.apiKey) {
-    const key = process.env.ds_API_KEY;
+    const key = process.env.DEEPSEEK_API_KEY;
     if (!key) {
-      process.stderr.write('Error: No API key found. Run "ds auth login" or set ds_API_KEY env var.\n');
+      process.stderr.write('Error: No API key found. Run "ds auth login" or set DEEPSEEK_API_KEY env var.\n');
       process.exitCode = 1;
       return;
     }

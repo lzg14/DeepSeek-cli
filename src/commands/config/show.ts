@@ -15,7 +15,9 @@ export default defineCommand({
     const cfg = readConfigFile();
 
     if (flags.json) {
-      console.log(JSON.stringify(cfg, null, 2));
+      const masked = { ...cfg };
+      if (masked.apiKey) masked.apiKey = masked.apiKey.slice(0, 8) + '...';
+      console.log(JSON.stringify(masked, null, 2));
       return;
     }
 
@@ -26,9 +28,9 @@ export default defineCommand({
     console.log(`    Proxy:     ${cfg.proxy || '(not set)'}`);
     console.log('');
     console.log('  Environment variables:');
-    console.log('    ds_API_KEY  -> API key');
-    console.log('    HTTPS_PROXY       -> Proxy URL');
-    console.log('    HTTP_PROXY        -> Proxy URL');
+    console.log('    DEEPSEEK_API_KEY -> API key');
+    console.log('    HTTPS_PROXY      -> Proxy URL');
+    console.log('    HTTP_PROXY       -> Proxy URL');
     console.log('');
   },
 });

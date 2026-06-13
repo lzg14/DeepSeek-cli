@@ -21,7 +21,7 @@ Command-line tool for DeepSeek API. Chat with models, manage API keys, and more.
 ### npm
 
 ```bash
-npm install -g ds-cli
+npm install -g @lzg14/deepseek-cli
 ```
 
 ## Quick Start

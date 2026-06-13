@@ -27,7 +27,7 @@ export function writeConfigFile(config: Config): void {
 export function loadConfig(flags: Record<string, unknown>): Config {
   const fileConfig = readConfigFile();
   const config: Config = {
-    apiKey: (flags.api_key as string) || fileConfig.apiKey || process.env.ds_API_KEY,
+    apiKey: (flags.api_key as string) || fileConfig.apiKey || process.env.DEEPSEEK_API_KEY,
     baseUrl: (flags.base_url as string) || fileConfig.baseUrl || 'https://api.ds.com',
     model: (flags.model as string) || fileConfig.model || 'deepseek-chat',
     output: (flags.output as string) || fileConfig.output || 'text',

@@ -3,7 +3,7 @@ import assert from 'node:assert';
 import { spawn } from 'node:child_process';
 import { join } from 'node:path';
 
-const CLI = join(process.cwd(), 'dist', 'seek.js');
+const CLI = join(process.cwd(), 'dist', 'ds.js');
 
 function run(args: string[]): Promise<{ stdout: string; stderr: string; code: number }> {
   return new Promise((resolve) => {
@@ -18,7 +18,7 @@ function run(args: string[]): Promise<{ stdout: string; stderr: string; code: nu
   });
 }
 
-describe('seek CLI', () => {
+describe('ds CLI', () => {
   describe('--help', () => {
     it('shows help without args', async () => {
       const result = await run(['--help']);
@@ -33,21 +33,21 @@ describe('seek CLI', () => {
       const result = await run(['chat', '--help']);
       const output = result.stdout + result.stderr;
       assert.ok(output.includes('Usage:'));
-      assert.ok(output.includes('seek chat'));
+      assert.ok(output.includes('ds chat'));
     });
 
     it('shows command help for balance', async () => {
       const result = await run(['balance', '--help']);
       const output = result.stdout + result.stderr;
       assert.ok(output.includes('Usage:'));
-      assert.ok(output.includes('seek balance'));
+      assert.ok(output.includes('ds balance'));
     });
 
     it('shows command help for models', async () => {
       const result = await run(['models', '--help']);
       const output = result.stdout + result.stderr;
       assert.ok(output.includes('Usage:'));
-      assert.ok(output.includes('seek models'));
+      assert.ok(output.includes('ds models'));
     });
   });
 
@@ -80,7 +80,7 @@ describe('seek CLI', () => {
       const result = await run(['balance', '--help']);
       const output = result.stdout + result.stderr;
       assert.ok(output.includes('Usage:'));
-      assert.ok(output.includes('seek balance'));
+      assert.ok(output.includes('ds balance'));
     });
   });
 
@@ -89,14 +89,14 @@ describe('seek CLI', () => {
       const result = await run(['models', '--help']);
       const output = result.stdout + result.stderr;
       assert.ok(output.includes('Usage:'));
-      assert.ok(output.includes('seek models'));
+      assert.ok(output.includes('ds models'));
     });
   });
 
   describe('config', () => {
     it('shows config', async () => {
       const result = await run(['config', 'show']);
-      assert.ok(result.stdout.includes('seek configuration'));
+      assert.ok(result.stdout.includes('seek configuration') || result.stdout.includes('ds configuration'));
     });
   });
 
@@ -105,7 +105,7 @@ describe('seek CLI', () => {
       const result = await run(['complete', '--help']);
       const output = result.stdout + result.stderr;
       assert.ok(output.includes('Usage:'));
-      assert.ok(output.includes('seek complete'));
+      assert.ok(output.includes('ds complete'));
     });
 
     it('accepts --prompt with --dry-run', async () => {
