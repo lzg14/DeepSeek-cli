@@ -61,8 +61,13 @@ export default defineCommand({
       stream: isStreaming,
     };
 
+    if (enableReasoning) {
+      body.thinking = { type: 'enabled' };
+      if (config.thinkingEffort) body.reasoning_effort = config.thinkingEffort;
+    }
+
     if (flags.temperature !== undefined) body.temperature = parseFloat(flags.temperature as string);
-    if (flags.max_tokens !== undefined) body.max_tokens = parseInt(flags.max_tokens as string);
+    if (flags.max_tokens !== undefined) body.max_tokens = parseInt(flags.max_tokens as string, 10);
     if (flags.json) body.response_format = { type: 'json_object' };
 
     const timeout = (flags.timeout as number) || config.timeout || 120;

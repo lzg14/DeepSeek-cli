@@ -31,19 +31,12 @@ export function loadConfig(flags: Record<string, unknown>): Config {
     baseUrl: (flags.base_url as string) || fileConfig.baseUrl || 'https://api.ds.com',
     model: (flags.model as string) || fileConfig.model || 'deepseek-chat',
     output: (flags.output as string) || fileConfig.output || 'text',
-    timeout: (flags.timeout as number) || fileConfig.timeout,
+    timeout: flags.timeout !== undefined ? (flags.timeout as number) : (fileConfig.timeout ?? 120),
     proxy: fileConfig.proxy || process.env.HTTPS_PROXY || process.env.HTTP_PROXY,
     thinking: flags.thinking !== undefined ? !!flags.thinking : fileConfig.thinking,
-    thinkingEffort: (flags.thinking_effort as number) || fileConfig.thinkingEffort || 3,
+    thinkingEffort: flags.thinking_effort !== undefined ? (flags.thinking_effort as number) : (fileConfig.thinkingEffort ?? 3),
     stream: flags.stream !== undefined ? !!flags.stream : true,
   };
   return config;
 }
 
-export function loadConfigWithDefaults(partial: Partial<Config>): Config {
-  const fileConfig = readConfigFile();
-  return {
-    ...fileConfig,
-    ...partial,
-  };
-}
