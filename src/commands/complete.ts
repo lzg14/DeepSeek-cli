@@ -75,15 +75,19 @@ export default defineCommand({
         if (!response.body) throw new Error('No response body');
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
+        let buffer = '';
 
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
           const chunk = decoder.decode(value, { stream: true });
-          const lines = chunk.split('\n');
+          buffer += chunk;
+          const lines = buffer.split('\n');
+          buffer = lines.pop() || '';
           for (const line of lines) {
-            if (line.startsWith('data: ')) {
-              const data = line.slice(6);
+            const trimmed = line.trim();
+            if (trimmed.startsWith('data:')) {
+              const data = trimmed.slice(5).trim();
               if (data === '[DONE]') continue;
               try {
                 const parsed = JSON.parse(data);

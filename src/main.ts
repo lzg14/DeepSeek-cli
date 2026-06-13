@@ -33,12 +33,6 @@ async function main() {
   const commandPath = scanCommandPath(argv, GLOBAL_OPTIONS);
 
   const rawConfig = readConfigFile();
-  const proxyUrl = process.env.HTTPS_PROXY || process.env.https_proxy
-    || process.env.HTTP_PROXY || process.env.http_proxy
-    || rawConfig.proxy;
-  if (proxyUrl) {
-    // Proxy handled per-request in fetch
-  }
 
   if (argv.includes('--help') || argv.includes('-h')) {
     registry.printHelp(commandPath, process.stderr);
